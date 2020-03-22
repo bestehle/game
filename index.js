@@ -5,9 +5,10 @@ const rest = require('./src/rest');
 
 const app = express();
 
-app.set('trust proxy', ['loopback', 'linklocal', 'uniquelocal']);
+app.set('trust proxy', [ 'loopback', 'linklocal', 'uniquelocal' ]);
 app.use(bodyParser.json());
 
 rest(app);
 
 app.listen(process.env.PORT || 3000);
+console.log('running on port 3000');
