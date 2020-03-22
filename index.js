@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const express = require('express');
 const bodyParser = require('body-parser');
 
@@ -5,7 +7,7 @@ const rest = require('./src/rest');
 
 const app = express();
 
-app.set('trust proxy', [ 'loopback', 'linklocal', 'uniquelocal' ]);
+app.set('trust proxy', ['loopback', 'linklocal', 'uniquelocal']);
 app.use(bodyParser.json());
 
 rest(app);
