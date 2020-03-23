@@ -1,6 +1,9 @@
+const updateState = require('./updateState');
+
 module.exports = (req, res, state) => {
 	// console.log(req.params.gameId);
 
-	state.index = state.index - 1;
+	state = updateState(state);
+
 	res.json(state.index);
 };
