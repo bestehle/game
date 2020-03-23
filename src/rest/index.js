@@ -4,6 +4,7 @@ const getState = require('./getState');
 const setState = require('./setState');
 const getHistory = require('./getHistory');
 const updateState = require('./updateState');
+const cards = require('./cards.json');
 
 // State of game
 let state = {
@@ -18,7 +19,7 @@ let state = {
 };
 
 // Load cards JSON with data of game cards
-state.cards = getCards();
+state.cards = cards;
 
 // Set up card decks
 state = updateState(state);
@@ -32,12 +33,3 @@ module.exports = (app) => {
 	app.get('/welcome-api/history', (req, res) => getHistory(req, res, state));
 	// app.get('/welcome-api/:gameId/next', (req, res) => setState(req, res, state));
 };
-
-function getCards() {
-	// Load cards JSON with data of game cards
-	var fs = require('fs');
-	const cards = JSON.parse(fs.readFileSync('./src/cards.json', 'utf8'));
-
-	// console.log(cards);
-	return cards;
-}
