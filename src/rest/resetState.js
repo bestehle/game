@@ -1,16 +1,16 @@
 const initialize = require('./initState');
 
 module.exports = (req, res, state) => {
-    console.log('GameId:', req.params.gameId);
-    let seed = req.params.gameId;
+	console.log('GameId:', req.params.gameId);
+	let seed = req.params.gameId;
 
-    if (seed === undefined) {
-        seed = 'start';
-        seed = Math.floor(Math.random() * 10000 + 1);
-    }
-    console.log('Seed:', seed);
+	if (seed === undefined) {
+		seed = 'start';
+		seed = Math.floor(Math.random() * 10000 + 1);
+	}
+	console.log('Seed:', seed);
 
-    state = initialize(seed);
+	state = initialize(seed);
 
-    res.json([state.index, state.seed]);
+	res.json([ state.index, state.seed ]);
 };
