@@ -1,4 +1,6 @@
-module.exports = (seed) => {
+const updateState = require('./updateState');
+
+module.exports = (state, seed) => {
 	// console.log(seed);
 
 	// Load cards JSON with data of game cards
@@ -9,18 +11,18 @@ module.exports = (seed) => {
 	}
 
 	// State of game
-	const state = {
-		seed: seed,
-		index: 0,
-		cards: cards,
-		shuffledDecks: null,
-		currentSet: null,
-		round: 0,
-		deckLog: [],
-		history: [],
-		shuffled: false,
-		plans: [ false, false, false ]
-	};
+	state.seed = seed;
+	state.index = 0;
+	state.cards = cards;
+	state.shuffledDecks = null;
+	state.currentSet = null;
+	state.round = 0;
+	state.deckLog = [];
+	state.history = [];
+	state.shuffled = false;
+	state.plans = [ false, false, false ];
+
+	state = updateState(state);
 
 	return state;
 };

@@ -4,15 +4,14 @@ const getState = require('./getState');
 const setState = require('./setState');
 const getHistory = require('./getHistory');
 const setPlans = require('./setPlans');
-const updateState = require('./updateState');
 const initialize = require('./initState');
 const resetState = require('./resetState');
 
-// Initialize app
-let state = initialize();
+// State of game
+let state = {};
 
-// Set up card decks
-state = updateState(state);
+// Initialize app
+state = initialize(state);
 
 // console.log(state);
 

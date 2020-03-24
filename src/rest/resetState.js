@@ -1,7 +1,7 @@
 const initialize = require('./initState');
 
 module.exports = (req, res, state) => {
-	console.log('GameId:', req.params.gameId);
+	// console.log('GameId:', req.params.gameId);
 	let seed = req.params.gameId;
 
 	if (seed === undefined) {
@@ -10,7 +10,7 @@ module.exports = (req, res, state) => {
 	}
 	console.log('Seed:', seed);
 
-	state = initialize(seed);
+	state = initialize(state, seed);
 
 	res.json([ state.index, state.seed ]);
 };
