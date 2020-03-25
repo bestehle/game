@@ -1,0 +1,28 @@
+{
+	"plan1": [
+		{ "id": 1, "first": 8, "others": 4 },
+		{ "id": 2, "first": 6, "others": 3 },
+		{ "id": 3, "first": 7, "others": 4 },
+		{ "id": 4, "first": 8, "others": 4 },
+		{ "id": 5, "first": 6, "others": 3 },
+		{ "id": 6, "first": 8, "others": 4 },
+		{ "id": 7, "first": 10, "others": 6 }
+	],
+	"plan2": [
+		{ "id": 1, "first": 0, "others": 0 },
+		{ "id": 2, "first": 0, "others": 0 },
+		{ "id": 3, "first": 0, "others": 0 },
+		{ "id": 4, "first": 0, "others": 0 },
+		{ "id": 5, "first": 0, "others": 0 },
+		{ "id": 6, "first": 0, "others": 0 },
+		{ "id": 7, "first": 0, "others": 0 }
+	],
+	"plan3": [
+		{ "id": 1, "first": 0, "others": 0 },
+		{ "id": 2, "first": 0, "others": 0 },
+		{ "id": 3, "first": 0, "others": 0 },
+		{ "id": 4, "first": 0, "others": 0 },
+		{ "id": 5, "first": 0, "others": 0 },
+		{ "id": 6, "first": 0, "others": 0 }
+	]
+}
