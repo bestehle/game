@@ -20,7 +20,8 @@ module.exports = (state) => {
 		actions: state.shuffledDecks[state.index],
 		numbers: state.shuffledDecks[state.index - 1],
 		shuffled: state.shuffled,
-		plans: state.plans
+		plans: state.plans,
+		plansApproved: state.plansApproved
 	};
 
 	state.history.push(state.currentSet);
