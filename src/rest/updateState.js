@@ -7,7 +7,7 @@ module.exports = (state) => {
 	if (state.index <= 1) {
 		console.log('Shuffling cards');
 
-		state.shuffledDecks = shuffleCards(state.cards);
+		state.shuffledDecks = shuffleCards(state.cards, state.seed);
 		state.index = state.shuffledDecks.length;
 
 		state.deckLog.push(state.shuffledDecks);
@@ -31,8 +31,8 @@ module.exports = (state) => {
 	return state;
 };
 
-function shuffleCards(cards) {
-	var myrng = seedrandom('Start');
+function shuffleCards(cards, seed) {
+	var myrng = seedrandom(seed);
 
 	var numCards = cards.length;
 	var shuffledDecks = Array();
