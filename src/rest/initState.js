@@ -27,7 +27,7 @@ module.exports = (state, seed) => {
 	state.history = [];
 	state.shuffled = false;
 	state.plans = [ plan1, plan2, plan3 ];
-	state.planApproved = [ false, false, false ];
+	state.plansApproved = [ false, false, false ];
 
 	state = updateState(state);
 
