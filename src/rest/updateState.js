@@ -1,7 +1,6 @@
 const seedrandom = require('seedrandom');
 
 module.exports = (state) => {
-	// console.log(req.params.gameId);
 	state.round++;
 	state.shuffled = false;
 	if (state.index <= 1) {

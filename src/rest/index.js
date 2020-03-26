@@ -7,6 +7,19 @@ const setPlans = require('./setPlans');
 const initialize = require('./initState');
 const resetState = require('./resetState');
 
+const getDb = require('./db');
+const db = getDb();
+
+// // Load cards into DB
+// let cards = require('./cards.json');
+// // console.log(cards);
+// db.query('INSERT INTO resources (item) VALUES(${this:json})', { cards });
+
+// Load plans into DB
+let plans = require('./plans.json');
+// console.log(plans);
+db.query('INSERT INTO resources (item) VALUES(${this:json})', { plans });
+
 // State of game
 let state = {};
 
