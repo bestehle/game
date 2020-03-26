@@ -1,5 +1,11 @@
 const health = require('./health');
 
+require('dotenv').config();
+const pgp = require('pg-promise')({
+	/* initialization options */
+	capSQL: true // capitalize all generated SQL
+});
+
 const getState = require('./getState');
 const setState = require('./setState');
 const getHistory = require('./getHistory');
@@ -7,24 +13,16 @@ const setPlans = require('./setPlans');
 const initialize = require('./initState');
 const resetState = require('./resetState');
 
-const getDb = require('./db');
-const db = getDb();
+const db = require('./db')();
 
-// // Load cards into DB
-// let cards = require('./cards.json');
-// // console.log(cards);
-// db.query('INSERT INTO resources (item) VALUES(${this:json})', { cards });
-
-// Load plans into DB
-let plans = require('./plans.json');
-// console.log(plans);
-db.query('INSERT INTO resources (item) VALUES(${this:json})', { plans });
+// loadCardsInDB();
+// loadPlansInDB();
 
 // State of game
 let state = {};
 
 // Initialize app
-state = initialize(state);
+state = initialize(state, db);
 
 // console.log(state);
 
@@ -37,3 +35,41 @@ module.exports = (app) => {
 	app.get('/welcome-api/reset', (req, res) => resetState(req, res, state));
 	// app.get('/welcome-api/:gameId/reset', (req, res) => resetState(req, res, state));
 };
+
+function loadCardsInDB() {
+	// Load cards into DB
+	let cards = require('./cards.json');
+	// console.log(cards);
+
+	const card_cs = new pgp.helpers.ColumnSet([ 'card' ], { table: 'cards' });
+	const card_query = pgp.helpers.insert(cards, card_cs);
+	db
+		.none(card_query)
+		.then((data) => {
+			// success, data = null
+			console.log('Cards in DB');
+		})
+		.catch((error) => {
+			console.log(error);
+			// error;
+		});
+}
+
+function loadPlansInDB() {
+	// Load plans into DB
+	let plans = require('./plans.json');
+	// console.log(plans);
+
+	const plan_cs = new pgp.helpers.ColumnSet([ 'plan' ], { table: 'plans' });
+	const plan_query = pgp.helpers.insert(plans, plan_cs);
+	db
+		.none(plan_query)
+		.then((data) => {
+			// success, data = null
+			console.log('Plans in DB');
+		})
+		.catch((error) => {
+			console.log(error);
+			// error;
+		});
+}

@@ -1,17 +1,34 @@
-const seedrandom = require('seedrandom');
-
-module.exports = (state) => {
+module.exports = (state, db) => {
 	state.round++;
+
 	state.shuffled = false;
 	if (state.index <= 1) {
 		console.log('Shuffling cards');
 
-		state.shuffledDecks = shuffleCards(state.cards, state.seed);
-		state.index = state.shuffledDecks.length;
+		db
+			.any("SELECT card -> 'id' AS id, card -> 'number' AS number, card -> 'action' AS action FROM cards")
+			.then((cards) => {
+				// console.log(cards);
 
-		state.deckLog.push(state.shuffledDecks);
-		state.shuffled = true;
+				state.shuffledDecks = shuffleCards(cards, state.seed);
+
+				state.index = state.shuffledDecks.length;
+
+				state.deckLog.push(state.shuffledDecks);
+				state.shuffled = true;
+
+				setState(state);
+			})
+			.catch((error) => {
+				// error;
+				console.log(error);
+			});
+	} else {
+		setState(state);
 	}
+};
+
+function setState(state) {
 	state.index = state.index - 1;
 
 	state.currentSet = {
@@ -24,14 +41,10 @@ module.exports = (state) => {
 	};
 
 	state.history.push(state.currentSet);
-
-	// console.log(state);
-	// console.log(state.index);
-	// console.log(state.history);
-	return state;
-};
+}
 
 function shuffleCards(cards, seed) {
+	const seedrandom = require('seedrandom');
 	var myrng = seedrandom(seed);
 
 	var numCards = cards.length;

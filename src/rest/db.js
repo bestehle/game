@@ -1,12 +1,14 @@
 const pgp = require('pg-promise')(/* initialization options */);
 
+// console.log(process.env.DB_USER, process.env.DB_PASSWORD);
+
 module.exports = (param) => {
 	const cn = {
 		host: 'localhost', // server name or IP address;
 		port: 5432,
 		database: 'welcometo',
-		user: '',
-		password: ''
+		user: process.env.DB_USER,
+		password: process.env.DB_PASSWORD
 	};
 
 	// alternative:
