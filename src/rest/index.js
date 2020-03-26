@@ -22,11 +22,15 @@ const db = require('./db')();
 let state = {};
 
 // Initialize app
-state = initialize(state, db);
-
-// console.log(state);
+initialize(state, db);
+console.log(state);
 
 module.exports = (app) => {
+	app.use((req, res, next) => {
+		req.db = db;
+		next();
+	});
+
 	app.get('/welcome-api/_health', health);
 	app.get('/welcome-api/state', (req, res) => getState(req, res, state));
 	app.get('/welcome-api/next', (req, res) => setState(req, res, state));
