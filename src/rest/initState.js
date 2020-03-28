@@ -12,25 +12,32 @@ module.exports = (state, db, seed) => {
 			const cards = await t.any(
 				"SELECT card -> 'id' AS id, card -> 'number' AS number, card -> 'action' AS action FROM cards"
 			);
-			const plans = await t.any(
-				"SELECT plan -> 'cat' AS cat, plan -> 'id' AS id, plan -> 'first' AS first, plan -> 'others' AS others FROM plans"
+			const plans = {};
+			plans.plan1 = await t.any(
+				"SELECT plan -> 'cat' AS cat, plan -> 'id' AS id, plan -> 'first' AS first, plan -> 'others' AS others FROM plans WHERE plan ->> 'cat' = '1'"
+			);
+			plans.plan2 = await t.any(
+				"SELECT plan -> 'cat' AS cat, plan -> 'id' AS id, plan -> 'first' AS first, plan -> 'others' AS others FROM plans WHERE plan ->> 'cat' = '2'"
+			);
+			plans.plan3 = await t.any(
+				"SELECT plan -> 'cat' AS cat, plan -> 'id' AS id, plan -> 'first' AS first, plan -> 'others' AS others FROM plans WHERE plan ->> 'cat' = '3'"
 			);
 			return { cards, plans };
 		})
 		.then((data) => {
 			const cards = data.cards;
-			console.log(cards);
+			// console.log(cards);
 			const plans = data.plans;
-			console.log(plans);
+			// console.log(plans);
 
 			if (seed === undefined) {
 				seed = Math.floor(Math.random() * 10000 + 1);
 			}
 
-			// var plan1 = Math.ceil(Math.random() * plans.plan1.length);
-			// // console.log('Plan1:', plan1);
-			// var plan2 = Math.ceil(Math.random() * plans.plan2.length);
-			// var plan3 = Math.ceil(Math.random() * plans.plan3.length);
+			var plan1 = Math.ceil(Math.random() * plans.plan1.length);
+			// console.log('Plan1:', plan1);
+			var plan2 = Math.ceil(Math.random() * plans.plan2.length);
+			var plan3 = Math.ceil(Math.random() * plans.plan3.length);
 
 			// State of game
 			state.seed = seed;
@@ -41,7 +48,7 @@ module.exports = (state, db, seed) => {
 			state.deckLog = [];
 			state.history = [];
 			state.shuffled = false;
-			// state.plans = [ plan1, plan2, plan3 ];
+			state.plans = [ plan1, plan2, plan3 ];
 			state.plansApproved = [ false, false, false ];
 
 			updateState(state, db);
