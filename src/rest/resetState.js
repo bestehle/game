@@ -1,16 +1,10 @@
 const initialize = require('./initState');
 
-module.exports = (req, res, state) => {
-	// console.log('GameId:', req.params.gameId);
-	let seed = req.params.gameId;
+module.exports = async (req, res) => {
+	let gameId = req.params.gameId;
+	console.log('Reset game:', req.params.gameId);
 
-	if (seed === undefined) {
-		seed = 'start';
-		seed = Math.floor(Math.random() * 10000 + 1);
-	}
-	console.log('Seed:', seed);
+	await initialize(req.db, gameId);
 
-	state = initialize(state, seed);
-
-	res.json([ state.index, state.seed ]);
+	res.json([ gameId ]);
 };

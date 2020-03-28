@@ -15,14 +15,12 @@ module.exports = async (db, gameId) => {
 			let saved = await saveState(db, gameId, state);
 			console.log('Updated saved:', saved);
 
-			result = true;
+			return state.currentSet;
 		})
 		.catch((error) => {
 			console.log(error.message || error);
-			result = false;
+			return false;
 		});
-	// console.log(result);
-	return result;
 };
 
 async function updateStateProperties(db, state) {

@@ -41,9 +41,10 @@ module.exports = async (db, gameId) => {
 			if (gameId === undefined) gameId = 'default';
 			let saved = await saveState(db, gameId, state);
 			console.log('Init saved:', saved);
-			updateState(db, gameId);
+			return updateState(db, gameId);
 		})
 		.catch((error) => {
 			console.log(error);
+			return false;
 		});
 };
