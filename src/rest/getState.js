@@ -1,5 +1,5 @@
 module.exports = async (req, res, state) => {
-	const state = await req.db();
+	// state = await req.db.one();
 	res.json(state.currentSet);
 
 	// req.db().then(() => {
