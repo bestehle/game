@@ -1,46 +1,32 @@
 const updateState = require('./updateState');
+const saveState = require('./saveState');
 
-module.exports = (state, db, seed) => {
-	// console.log(seed);
-
-	// Load cards JSON with data of game cards
-	// const cards = require('./cards.json');
-	// const plans = require('./plans.json');
-
+module.exports = async (db, gameId) => {
 	db
 		.task('get-resources', async (t) => {
-			const cards = await t.any(
-				"SELECT card -> 'id' AS id, card -> 'number' AS number, card -> 'action' AS action FROM cards"
-			);
-			const plans = {};
-			plans.plan1 = await t.any(
+			const plan1 = await t.any(
 				"SELECT plan -> 'cat' AS cat, plan -> 'id' AS id, plan -> 'first' AS first, plan -> 'others' AS others FROM plans WHERE plan ->> 'cat' = '1'"
 			);
-			plans.plan2 = await t.any(
+			const plan2 = await t.any(
 				"SELECT plan -> 'cat' AS cat, plan -> 'id' AS id, plan -> 'first' AS first, plan -> 'others' AS others FROM plans WHERE plan ->> 'cat' = '2'"
 			);
-			plans.plan3 = await t.any(
+			const plan3 = await t.any(
 				"SELECT plan -> 'cat' AS cat, plan -> 'id' AS id, plan -> 'first' AS first, plan -> 'others' AS others FROM plans WHERE plan ->> 'cat' = '3'"
 			);
-			return { cards, plans };
+			return { plan1, plan2, plan3 };
 		})
-		.then((data) => {
-			const cards = data.cards;
-			// console.log(cards);
-			const plans = data.plans;
+		.then(async (data) => {
+			const plans = data;
 			// console.log(plans);
 
-			if (seed === undefined) {
-				seed = Math.floor(Math.random() * 10000 + 1);
-			}
-
 			var plan1 = Math.ceil(Math.random() * plans.plan1.length);
-			// console.log('Plan1:', plan1);
 			var plan2 = Math.ceil(Math.random() * plans.plan2.length);
 			var plan3 = Math.ceil(Math.random() * plans.plan3.length);
 
+			const state = {};
+
 			// State of game
-			state.seed = seed;
+			state.seed = Math.floor(Math.random() * 10000 + 1);
 			state.index = 0;
 			state.shuffledDecks = null;
 			state.currentSet = null;
@@ -51,7 +37,11 @@ module.exports = (state, db, seed) => {
 			state.plans = [ plan1, plan2, plan3 ];
 			state.plansApproved = [ false, false, false ];
 
-			updateState(state, db);
+			// let gameId = Math.random().toString(36).substr(2, 9);
+			if (gameId === undefined) gameId = 'default';
+			let saved = await saveState(db, gameId, state);
+			console.log('Init saved:', saved);
+			updateState(db, gameId);
 		})
 		.catch((error) => {
 			console.log(error);

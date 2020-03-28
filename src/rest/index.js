@@ -6,6 +6,8 @@ const pgp = require('pg-promise')({
 	capSQL: true // capitalize all generated SQL
 });
 
+const startGame = require('./startGame');
+const getGames = require('./getGames');
 const getState = require('./getState');
 const setState = require('./setState');
 const getHistory = require('./getHistory');
@@ -18,12 +20,8 @@ const db = require('./db')();
 // loadCardsInDB();
 // loadPlansInDB();
 
-// State of game
-let state = {};
-
 // Initialize app
-initialize(state, db);
-console.log(state);
+initialize(db);
 
 module.exports = (app) => {
 	app.use((req, res, next) => {
@@ -32,12 +30,14 @@ module.exports = (app) => {
 	});
 
 	app.get('/welcome-api/_health', health);
-	app.get('/welcome-api/state', (req, res) => getState(req, res, state));
-	app.get('/welcome-api/next', (req, res) => setState(req, res, state));
-	app.get('/welcome-api/history', (req, res) => getHistory(req, res, state));
-	app.get('/welcome-api/plans', (req, res) => setPlans(req, res, state));
-	app.get('/welcome-api/reset', (req, res) => resetState(req, res, state));
-	// app.get('/welcome-api/:gameId/reset', (req, res) => resetState(req, res, state));
+	app.get('/welcome-api/:gameId/game', (req, res) => startGame(req, res));
+	app.get('/welcome-api/:gameId/activegames', (req, res) => getGames(req, res));
+	app.get('/welcome-api/:gameId/next', (req, res) => setState(req, res));
+	// app.get('/welcome-api/state', (req, res) => getState(req, res));
+	// app.get('/welcome-api/history', (req, res) => getHistory(req, res));
+	// app.get('/welcome-api/plans', (req, res) => setPlans(req, res));
+	// app.get('/welcome-api/reset', (req, res) => resetState(req, res));
+	// app.get('/welcome-api/:gameId/reset', (req, res) => resetState(req, res));
 };
 
 function loadCardsInDB() {

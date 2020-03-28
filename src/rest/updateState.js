@@ -1,4 +1,31 @@
-module.exports = async (state, db) => {
+const saveState = require('./saveState');
+
+module.exports = async (db, gameId) => {
+	console.log('Start updateState');
+	let result;
+	await db
+		.one('SELECT state FROM games WHERE game_id = $<id>', { id: gameId })
+		.then(async (data) => {
+			// console.log(data);
+			let state = data.state;
+
+			await updateStateProperties(db, state);
+			// console.log(state);
+
+			let saved = await saveState(db, gameId, state);
+			console.log('Updated saved:', saved);
+
+			result = true;
+		})
+		.catch((error) => {
+			console.log(error.message || error);
+			result = false;
+		});
+	// console.log(result);
+	return result;
+};
+
+async function updateStateProperties(db, state) {
 	state.round++;
 
 	state.shuffled = false;
@@ -28,7 +55,7 @@ module.exports = async (state, db) => {
 	};
 
 	state.history.push(state.currentSet);
-};
+}
 
 function shuffleCards(cards, seed) {
 	const seedrandom = require('seedrandom');
@@ -55,5 +82,6 @@ function shuffleCards(cards, seed) {
 
 		shuffledDecks.push(cardTriple);
 	}
+	console.log('Cards shuffled');
 	return shuffledDecks;
 }
