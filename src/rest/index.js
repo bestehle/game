@@ -33,10 +33,9 @@ module.exports = (app) => {
 	app.get('/welcome-api/:gameId/game', (req, res) => startGame(req, res));
 	app.get('/welcome-api/:gameId/activegames', (req, res) => getGames(req, res));
 	app.get('/welcome-api/:gameId/next', (req, res) => setState(req, res));
-	// app.get('/welcome-api/state', (req, res) => getState(req, res));
-	// app.get('/welcome-api/history', (req, res) => getHistory(req, res));
-	// app.get('/welcome-api/plans', (req, res) => setPlans(req, res));
-	// app.get('/welcome-api/reset', (req, res) => resetState(req, res));
+	app.get('/welcome-api/:gameId/state', (req, res) => getState(req, res));
+	app.get('/welcome-api/:gameId/history', (req, res) => getHistory(req, res));
+	app.get('/welcome-api/:gameId/plans', (req, res) => setPlans(req, res));
 	// app.get('/welcome-api/:gameId/reset', (req, res) => resetState(req, res));
 };
 
