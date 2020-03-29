@@ -30,8 +30,8 @@ module.exports = (app) => {
 	});
 
 	app.get('/welcome-api/_health', health);
+	app.get('/welcome-api/activegames', (req, res) => getGames(req, res));
 	app.get('/welcome-api/:gameId/game', (req, res) => startGame(req, res));
-	app.get('/welcome-api/:gameId/activegames', (req, res) => getGames(req, res));
 	app.get('/welcome-api/:gameId/next', (req, res) => setState(req, res));
 	app.get('/welcome-api/:gameId/state', (req, res) => getState(req, res));
 	app.get('/welcome-api/:gameId/history', (req, res) => getHistory(req, res));

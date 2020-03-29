@@ -1,7 +1,7 @@
 module.exports = async (req, res) => {
 	let games = {};
 	await req.db
-		.any('SELECT game_id FROM games')
+		.any('SELECT game_id, name, timestamp FROM games')
 		.then(async (data) => {
 			// console.log(data);
 			games = data;

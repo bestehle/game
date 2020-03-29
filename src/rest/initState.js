@@ -1,7 +1,7 @@
 const updateState = require('./updateState');
 const saveState = require('./saveState');
 
-module.exports = async (db, gameId) => {
+module.exports = async (db, gameId, name) => {
 	db
 		.task('get-resources', async (t) => {
 			const plan1 = await t.any(
@@ -39,7 +39,7 @@ module.exports = async (db, gameId) => {
 
 			// let gameId = Math.random().toString(36).substr(2, 9);
 			if (gameId === undefined) gameId = 'default';
-			let saved = await saveState(db, gameId, state);
+			let saved = await saveState(db, gameId, state, name);
 			console.log('Init saved:', saved);
 			return updateState(db, gameId);
 		})
