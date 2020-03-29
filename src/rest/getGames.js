@@ -11,7 +11,7 @@ module.exports = async (req, res) => {
 		});
 	// console.log(result);
 
-	console.log('Active games', games);
+	// console.log('Active games', games);
 
 	res.json(games);
 };
